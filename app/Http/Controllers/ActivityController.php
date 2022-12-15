@@ -19,6 +19,12 @@ class ActivityController extends Controller
 		return view('activity.create');
 	}
 
+	public function clone(Request $request, $activityId) {
+		$activity = Activity::findOrFail($activityId);
+
+		return view('activity.clone', compact('activity'));
+	}
+
 	public function store(Request $request) {
 
 		$request->validate([
