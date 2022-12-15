@@ -13,6 +13,23 @@ class ActivityTest extends TestCase
 {
 
     use RefreshDatabase;
+
+    /**
+     * Prepare a base Activity and return it
+     *
+     * @return array
+     */
+    private function getBaseActivity() {
+
+        return array(
+            'task_code' => 'TEST-001',
+			'activity_date' => Carbon::now(),
+			'team_code' => 'JS-01',
+			'activity_type' => 'Linear',
+			'contract_code' => 'ABC123',
+			'outputs' => array('Area Cleared (SQM)' => 123, 'Num Demineres' => 10, 'Minutes Worked' => 123)
+        );
+    }
     
     /**
      * A basic test example.
@@ -31,16 +48,55 @@ class ActivityTest extends TestCase
 
         $this->withoutExceptionHandling();
 
-        $response = $this->post('/create', [
-            'task_code' => 'TEST-001',
-			'activity_date' => Carbon::now(),
-			'team_code' => 'JS-01',
-			'activity_type' => 'Linear',
-			'contract_code' => 'ABC123',
-			'outputs' => array('Area Cleared (SQM)' => 123, 'Num Demineres' => 10, 'Minutes Worked' => 123)
-        ]);
+        $response = $this->post('/create', $this->getBaseActivity());
 
         $this->assertCount(1, Activity::all());
+    }
+
+    /** @test */
+    public function an_activity_can_be_edited() {
+
+        //$this->withoutExceptionHandling();
+
+        $this->post('/create', $this->getBaseActivity());
+        
+        $activity = Activity::firstOrFail();
+        
+
+        $this->post($activity->activity_id . '/edit', [
+            'task_code' => 'TEST-002',
+			'activity_date' => Carbon::now(),
+			'team_code' => 'JS-02',
+			'activity_type' => 'Linear',
+			'contract_code' => 'ABC456',
+			'outputs' => array('Area Cleared (SQM)' => 123, 'Num Demineres' => 10, 'Minutes Worked' => 123)
+        ], [$activity->activity_id]);
+
+        $activity2 = Activity::findOrFail($activity->activity_id);
+
+        $this->assertStringContainsString("TEST-002", $activity2->task_code);
+    }
+
+    /** @test */
+    public function an_activity_can_be_cloned() {
+
+        //$this->withoutExceptionHandling();
+
+        $this->post('/create', $this->getBaseActivity());
+        
+        $activity = Activity::firstOrFail();
+        
+
+        $this->post('/clone', [
+            'task_code' => 'TEST-003',
+			'activity_date' => Carbon::now(),
+			'team_code' => 'JS-03',
+			'activity_type' => 'Linear',
+			'contract_code' => 'ABC789',
+			'outputs' => array('Area Cleared (SQM)' => 123, 'Num Demineres' => 10, 'Minutes Worked' => 123)
+        ], [$activity->activity_id]);
+
+        $this->assertCount(2, Activity::all());
     }
 
     /** @test */
