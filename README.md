@@ -1,3 +1,18 @@
+### Update
+
+<h3>Changes Overview<h3>
+
+Clone option added to dropdown on main page
+Clone functionality added using a new route which uses an activity ID like the edit page does. Form then posts to /store just as the create page does.
+
+Test cases added for functionality and validation
+
+Repeated code in ActivityController refactored.
+Repeated code in the 3 views (create, edit and clone) refactored to use Blade Components instead
+
+
+### Original
+
 This is a base install of Laravel 9 with a few custom routes, a controller, a model and some blade views.
 
 The user interface lists "activity" and allows users to create new activity records or edit existing records. There is a migration and a seeder to create the database structure and some example data.
