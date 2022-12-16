@@ -1,14 +1,14 @@
 ### Update
 
-<h3>Changes Overview<h3>
+<h4>Changes Overview</h4>
 
-Clone option added to dropdown on main page
-Clone functionality added using a new route which uses an activity ID like the edit page does. Form then posts to /store just as the create page does.
+<p>Clone option added to dropdown on main page</p>
+<p>Clone functionality added using a new route which uses an activity ID like the edit page does. Form then posts to /store just as the create page does.</p>
 
-Test cases added for functionality and validation
+<p>Test cases added for functionality and validation</p>
 
-Repeated code in ActivityController refactored.
-Repeated code in the 3 views (create, edit and clone) refactored to use Blade Components instead
+<p>Repeated code in ActivityController refactored.</p>
+<p>Repeated code in the 3 views (create, edit and clone) refactored to use Blade Components instead</p>
 
 
 ### Original
